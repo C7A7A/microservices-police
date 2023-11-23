@@ -1,0 +1,9 @@
+<soapenv:Envelope xmlns:soapenv="http://schemas.xmlsoap.org/soap/envelope/"
+                  xmlns:gs="http://www.police.org">
+    <soapenv:Header/>
+    <soapenv:Body>
+        <gs:getVehicleListRequest>
+            <gs:name>chase</gs:name>
+        </gs:getVehicleListRequest>
+    </soapenv:Body>
+</soapenv:Envelope>
