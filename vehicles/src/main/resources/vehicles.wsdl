@@ -1,0 +1,111 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?><wsdl:definitions xmlns:wsdl="http://schemas.xmlsoap.org/wsdl/" xmlns:sch="http://www.police.org" xmlns:soap="http://schemas.xmlsoap.org/wsdl/soap/" xmlns:tns="http://www.police.org" targetNamespace="http://www.police.org">
+  <wsdl:types>
+    <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified" targetNamespace="http://www.police.org">
+
+    <xs:element name="getVehicleRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getVehicleResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="vehicle" type="tns:vehicle"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="vehicle">
+        <xs:sequence>
+            <xs:element name="name" type="xs:string"/>
+            <xs:element name="type" type="tns:type"/>
+            <xs:element name="capacity" type="xs:int"/>
+        </xs:sequence>
+    </xs:complexType>
+
+    <xs:simpleType name="type">
+        <xs:restriction base="xs:string">
+            <xs:enumeration value="standard"/>
+            <xs:enumeration value="chase"/>
+            <xs:enumeration value="motorcycle"/>
+            <xs:enumeration value="prisoner"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:element name="getVehicleListResponse">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element maxOccurs="unbounded" minOccurs="0" name="vehicles" type="tns:vehicle"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+
+    <xs:element name="getVehicleListRequest">
+        <xs:complexType>
+            <xs:sequence>
+                <xs:element name="name" type="xs:string"/>
+            </xs:sequence>
+        </xs:complexType>
+    </xs:element>
+</xs:schema>
+  </wsdl:types>
+  <wsdl:message name="getVehicleListResponse">
+    <wsdl:part element="tns:getVehicleListResponse" name="getVehicleListResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getVehicleResponse">
+    <wsdl:part element="tns:getVehicleResponse" name="getVehicleResponse">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getVehicleListRequest">
+    <wsdl:part element="tns:getVehicleListRequest" name="getVehicleListRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:message name="getVehicleRequest">
+    <wsdl:part element="tns:getVehicleRequest" name="getVehicleRequest">
+    </wsdl:part>
+  </wsdl:message>
+  <wsdl:portType name="VehiclesPort">
+    <wsdl:operation name="getVehicleList">
+      <wsdl:input message="tns:getVehicleListRequest" name="getVehicleListRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:getVehicleListResponse" name="getVehicleListResponse">
+    </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getVehicle">
+      <wsdl:input message="tns:getVehicleRequest" name="getVehicleRequest">
+    </wsdl:input>
+      <wsdl:output message="tns:getVehicleResponse" name="getVehicleResponse">
+    </wsdl:output>
+    </wsdl:operation>
+  </wsdl:portType>
+  <wsdl:binding name="VehiclesPortSoap11" type="tns:VehiclesPort">
+    <soap:binding style="document" transport="http://schemas.xmlsoap.org/soap/http"/>
+    <wsdl:operation name="getVehicleList">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="getVehicleListRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getVehicleListResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+    <wsdl:operation name="getVehicle">
+      <soap:operation soapAction=""/>
+      <wsdl:input name="getVehicleRequest">
+        <soap:body use="literal"/>
+      </wsdl:input>
+      <wsdl:output name="getVehicleResponse">
+        <soap:body use="literal"/>
+      </wsdl:output>
+    </wsdl:operation>
+  </wsdl:binding>
+  <wsdl:service name="VehiclesPortService">
+    <wsdl:port binding="tns:VehiclesPortSoap11" name="VehiclesPortSoap11">
+      <soap:address location="http://localhost:8080/ws"/>
+    </wsdl:port>
+  </wsdl:service>
+</wsdl:definitions>

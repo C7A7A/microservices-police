@@ -7,8 +7,8 @@ import java.util.*;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
-import org.police.Vehicle;
-import org.police.Type;
+import com.police.vehicles.data.Vehicle;
+import com.police.vehicles.data.Type;
 
 @Component
 public class VehicleRepository {

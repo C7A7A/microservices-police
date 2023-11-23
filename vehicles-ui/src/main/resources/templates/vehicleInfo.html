@@ -1,0 +1,14 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Vehicle Info</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+<h1>Result</h1>
+    <p th:text="'name: ' + ${vehicleInfo.name}" />
+    <p th:text="'type: ' + ${vehicleInfo.type}" />
+    <p th:text="'capacity: ' + ${vehicleInfo.capacity}" />
+    <a href="/getVehicle">Check another vehicle</a>
+</body>
+</html>

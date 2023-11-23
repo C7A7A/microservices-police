@@ -6,15 +6,15 @@ import org.springframework.ws.server.endpoint.annotation.PayloadRoot;
 import org.springframework.ws.server.endpoint.annotation.RequestPayload;
 import org.springframework.ws.server.endpoint.annotation.ResponsePayload;
 
-import org.police.GetVehicleRequest;
-import org.police.GetVehicleResponse;
-import org.police.GetVehicleListRequest;
-import org.police.GetVehicleListResponse;
+import com.police.vehicles.data.GetVehicleRequest;
+import com.police.vehicles.data.GetVehicleResponse;
+import com.police.vehicles.data.GetVehicleListRequest;
+import com.police.vehicles.data.GetVehicleListResponse;
 
 
 @Endpoint
 public class VehicleEndpoint {
-    private static final String NAMESPACE_URI = "http://www.police.org";
+    public static final String NAMESPACE_URI = "http://www.police.org";
 
     private final VehicleRepository vehicleRepository;
 
