@@ -1,0 +1,41 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Prepared Policemen</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <p> <a href="/preparePolicemen">Go back</a></p>
+    <h3> Prepared Policemen </h3>
+
+    <h4> Threat: <span th:text="${threat}"></span> </h4>
+
+    <h4> Chosen policemen: </h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Age</th>
+            <th>Rank</th>
+            <th>Equipped with</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="equippedPoliceman: ${equippedPolicemen}">
+            <td th:text="${equippedPoliceman.policeman.name}"></td>
+            <td th:text="${equippedPoliceman.policeman.surname}"></td>
+            <td th:text="${equippedPoliceman.policeman.age}"></td>
+            <td th:text="${equippedPoliceman.policeman.rank}"></td>
+            <td>
+                <span th:each="weapon: ${equippedPoliceman.weapons}">
+                    <span th:text="${weapon.name} "></span>
+                </span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+</body>
+</html>

@@ -1,0 +1,30 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Policemen</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <p> <a href="/">Go back</a></p>
+    <h3> Policemen </h3>
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Surname</th>
+                <th>Age</th>
+                <th>Rank</th>
+            </tr>
+        </thead>
+
+        <tbody>
+            <tr th:each="policeman: ${policemenList}">
+                <td th:text="${policeman.name}"></td>
+                <td th:text="${policeman.surname}"></td>
+                <td th:text="${policeman.age}"></td>
+                <td th:text="${policeman.rank}"></td>
+            </tr>
+        </tbody>
+    </table>
+</body>
+</html>

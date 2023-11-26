@@ -1,0 +1,26 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+    <title>Weapons</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <p> <a href="/">Go back</a></p>
+    <h3> Weapons </h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Danger level</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="weapon: ${weaponList}">
+            <td th:text="${weapon.name}"></td>
+            <td th:text="${weapon.dangerLevel}"></td>
+        </tr>
+        </tbody>
+    </table>
+</body>
+</html>
