@@ -29,10 +29,11 @@ public class PolicemenService {
         List<Weapon> weapons = policemenRepository.generateWeapons();
 
         return switch (threat) {
-            case "standard 1" -> equipPolicemen(policemen, weapons, DangerLevel.LOW, Rank.SENIOR_SERGEANT, 0.8);
-            case "standard 2" -> equipPolicemen(policemen, weapons, DangerLevel.LOW, Rank.STAFF_SERGEANT, 0.7);
-            case "chase" -> equipPolicemen(policemen, weapons, DangerLevel.HIGH, Rank.SENIOR_ASPIRANT, 0.6);
+            case "standard" -> equipPolicemen(policemen, weapons, DangerLevel.LOW, Rank.SENIOR_SERGEANT, 0.8);
+            case "beating" -> equipPolicemen(policemen, weapons, DangerLevel.LOW, Rank.STAFF_SERGEANT, 0.7);
+            case "chase" -> equipPolicemen(policemen, weapons, DangerLevel.HIGH, Rank.SENIOR_ASPIRANT, 0.5);
             case "prisoner" -> equipPolicemen(policemen, weapons, DangerLevel.MEDIUM, Rank.ASPIRANT, 0.6);
+            case "high risk" -> equipPolicemen(policemen, weapons, DangerLevel.HIGH, Rank.STAFF_ASPIRANT, 0.65);
             default -> {
                 Assert.notNull(threat, "Something went wrong. There is no threat of this type!");
                 yield List.of(new EquippedPoliceman());

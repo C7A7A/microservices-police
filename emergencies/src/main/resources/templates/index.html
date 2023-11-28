@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html xmlns:th="https://www.thymeleaf.org">
+<head>
+    <title>Report emergency</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <h3> Report emergency </h3>
+    <form action="#" th:action="@{/emergencies}" th:object="${emergency}" method="POST">
+        <div>
+            <label for="type">What happened?</label>
+            <select name="type" id="type" th:field="*{type}" required>
+                <option th:each="type : ${types}" th:value="${type}" th:text="${type}"> </option>
+            </select>
+        </div>
+
+        <div>
+            <label for="date">Date</label>
+            <input th:field="*{date}" type="date" id="date" name="date" />
+        </div>
+
+        <div>
+            <label for="time">Time</label>
+            <input th:field="*{time}" type="time" id="time" name="time" />
+        </div>
+
+        <div>
+            <label for="address">Address</label>
+            <input th:field="*{address}" name="address" id="address" />
+        </div>
+
+        <div>
+            <label for="injured_amount">Injured amount</label>
+            <input th:field="*{injuredAmount}" type="number" id="injured_amount" name="injured_amount" />
+        </div>
+
+        <div>
+            <label for="offenders_amount">Offenders amount</label>
+            <input th:field="*{offendersAmount}" type="number" id="offenders_amount" name="offenders_amount" />
+        </div>
+
+        <div>
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+</body>
+</html>

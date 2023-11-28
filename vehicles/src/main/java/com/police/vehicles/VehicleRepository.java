@@ -14,9 +14,10 @@ import com.police.vehicles.data.Type;
 public class VehicleRepository {
     private static final Map<String, Vehicle> vehicles = new HashMap<>();
     private static final List<Vehicle> vehiclesStandard1 = new ArrayList<>();
-    private static final List<Vehicle> vehiclesStandard2 = new ArrayList<>();
+    private static final List<Vehicle> vehiclesBeating = new ArrayList<>();
     private static final List<Vehicle> vehiclesChase = new ArrayList<>();
     private static final List<Vehicle> vehiclesPrisoner = new ArrayList<>();
+    private static final List<Vehicle> vehiclesHighRisk = new ArrayList<>();
 
     @PostConstruct
     public void initData() {
@@ -43,9 +44,10 @@ public class VehicleRepository {
         vehicles.put(prisoner2.getName(), prisoner1);
 
         vehiclesStandard1.addAll(List.of(standard1, standard2));
-        vehiclesStandard2.addAll(List.of(standard1, standard2, motorcycle1));
+        vehiclesBeating.addAll(List.of(standard1, standard2, motorcycle1));
         vehiclesChase.addAll(List.of(chase1, chase2, motorcycle2));
         vehiclesPrisoner.addAll(List.of(prisoner1, prisoner2));
+        vehiclesHighRisk.addAll(List.of(chase1, chase2, motorcycle1, motorcycle2, prisoner2, standard1, standard2));
     }
 
     public Vehicle findVehicle(String name) {
@@ -55,10 +57,11 @@ public class VehicleRepository {
 
     public List<Vehicle> findVehicles(String name) {
         return switch (name) {
-            case "standard 1" -> vehiclesStandard1;
-            case "standard 2" -> vehiclesStandard2;
+            case "standard" -> vehiclesStandard1;
+            case "beating" -> vehiclesBeating;
             case "chase" -> vehiclesChase;
             case "prisoner" -> vehiclesPrisoner;
+            case "high risk" -> vehiclesHighRisk;
             default -> {
                 Assert.notNull(name, "There is no vehicles list of this type");
                 yield Collections.emptyList();
