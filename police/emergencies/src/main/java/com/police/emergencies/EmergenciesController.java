@@ -1,20 +1,24 @@
 package com.police.emergencies;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.police.basedomains.Event;
 import com.police.emergencies.data.Emergency;
 import com.police.emergencies.data.Type;
+import com.police.emergencies.kafka.EmergencyProducer;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Arrays;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @RestController
 public class EmergenciesController {
     private final EmergenciesService emergenciesService;
+    private final EmergencyProducer emergencyProducer;
 
-    public EmergenciesController(EmergenciesService emergenciesService) {
+    public EmergenciesController(EmergenciesService emergenciesService, EmergencyProducer emergencyProducer) {
         this.emergenciesService = emergenciesService;
+        this.emergencyProducer = emergencyProducer;
     }
 
     @GetMapping
@@ -41,6 +45,13 @@ public class EmergenciesController {
         modelAndView.addObject("result", result);
 
         return modelAndView;
+    }
+
+    @PostMapping("/testKafka")
+    public String testKafka(@RequestBody Event event) throws JsonProcessingException {
+        emergencyProducer.sendMessage(event);
+
+        return "Event sent successfully";
     }
 
 }

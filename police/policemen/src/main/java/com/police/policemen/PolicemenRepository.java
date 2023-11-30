@@ -1,15 +1,19 @@
 package com.police.policemen;
 
-import com.police.policemen.data.DangerLevel;
-import com.police.policemen.data.Policeman;
-import com.police.policemen.data.Rank;
-import com.police.policemen.data.Weapon;
+import com.police.basedomains.DangerLevel;
+import com.police.basedomains.Policeman;
+import com.police.basedomains.Rank;
+import com.police.basedomains.Weapon;
+import com.police.policemen.data.*;
 import org.springframework.stereotype.Component;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Component
 public class PolicemenRepository {
+    private static List<EmergencyEquippedPoliceman> emergencyEquippedPolicemanList = new ArrayList<>();
+
     public List<Policeman> generatePolicemen() {
         return List.of(
                 new Policeman("Brent", "Faulkner", 22, Rank.CONSTABLE),
@@ -40,5 +44,9 @@ public class PolicemenRepository {
                 new Weapon("Rifle", DangerLevel.HIGH),
                 new Weapon("Submachine", DangerLevel.HIGH)
         );
+    }
+
+    public void saveEmergency(EmergencyEquippedPoliceman emergencyEquippedPoliceman) {
+        emergencyEquippedPolicemanList.add(emergencyEquippedPoliceman);
     }
 }

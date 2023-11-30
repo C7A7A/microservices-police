@@ -1,1 +1,3 @@
 rootProject.name = 'emergencies'
+includeBuild('../base-domains')
+

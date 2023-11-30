@@ -1,4 +1,4 @@
-package com.police.policemen.data;
+package com.police.basedomains;
 
 import java.util.List;
 

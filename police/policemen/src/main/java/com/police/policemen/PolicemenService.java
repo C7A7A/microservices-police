@@ -1,6 +1,12 @@
 package com.police.policemen;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.police.basedomains.*;
 import com.police.policemen.data.*;
+import com.police.policemen.kafka.EmergencyProducer;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.Assert;
 
@@ -10,10 +16,14 @@ import java.util.stream.Collectors;
 
 @Service
 public class PolicemenService {
-    private final PolicemenRepository policemenRepository;
+    private static final Logger LOGGER = LoggerFactory.getLogger(PolicemenService.class);
 
-    public PolicemenService(PolicemenRepository policemenRepository) {
+    private final PolicemenRepository policemenRepository;
+    private final EmergencyProducer emergencyProducer;
+
+    public PolicemenService(PolicemenRepository policemenRepository, EmergencyProducer emergencyProducer) {
         this.policemenRepository = policemenRepository;
+        this.emergencyProducer = emergencyProducer;
     }
 
     public List<Policeman> getPolicemen() {
@@ -63,5 +73,15 @@ public class PolicemenService {
                     .map(policeman -> new EquippedPoliceman(policeman, chosenWeapons))
                     .toList();
 
+    }
+
+    public void addEmergency(EmergencyEquippedPoliceman emergencyEquippedPoliceman) {
+        policemenRepository.saveEmergency(emergencyEquippedPoliceman);
+    }
+
+    public void sendReadyMessage(List<EquippedPoliceman> equippedPolicemen, String payloadId) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        String jsonPayload = objectMapper.writeValueAsString(equippedPolicemen);
+        emergencyProducer.sendMessage(new Event(EventType.POLICEMEN_READY, jsonPayload, payloadId));
     }
 }
