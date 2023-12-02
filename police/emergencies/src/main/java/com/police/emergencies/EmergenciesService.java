@@ -104,21 +104,21 @@ public class EmergenciesService {
 
     public void sendCompletedMessage(String payloadId) throws JsonProcessingException {
         Event newEvent = new Event(EventType.EMERGENCY_COMPLETED, "Vehicles and policemen ready", payloadId);
-        emergencyProducer.sendMessage(newEvent);
+        emergencyProducer.sendMessage(newEvent, true);
     }
 
     private void sendPolicemenFailedMessage(String payloadId) throws JsonProcessingException {
         Event newEvent = new Event(EventType.POLICEMEN_FAILED, "Policemen failed, start backward recovery for vehicles", payloadId);
-        emergencyProducer.sendMessage(newEvent);
+        emergencyProducer.sendMessage(newEvent, true);
     }
 
     private void sendVehiclesFailedMessage(String payloadId) throws JsonProcessingException {
         Event newEvent = new Event(EventType.VEHICLES_FAILED, "Vehicles failed, start backward recovery for policemen", payloadId);
-        emergencyProducer.sendMessage(newEvent);
+        emergencyProducer.sendMessage(newEvent, true);
     }
 
     private void sendFailedMessage(String payloadId) throws JsonProcessingException {
         Event newEvent = new Event(EventType.EMERGENCY_FAILED, "Emergency failed, please try again", payloadId);
-        emergencyProducer.sendMessage(newEvent);
+        emergencyProducer.sendMessage(newEvent, true);
     }
 }

@@ -56,14 +56,14 @@ public class EmergenciesController {
 
     @PostMapping("/emergenciesAPI")
     public void emergenciesAPI(@RequestBody Event event) throws JsonProcessingException {
-        emergencyProducer.sendMessage(event);
+        emergencyProducer.sendMessage(event, false);
     }
 
     @PostMapping("/emergenciesForm")
     public void emergenciesForm(@ModelAttribute Emergency emergency) throws JsonProcessingException {
         String result = emergenciesService.getEmergencyResult(emergency);
         Event event = new Event(EventType.EMERGENCY_ACCEPTED, result);
-        emergencyProducer.sendMessage(event);
+        emergencyProducer.sendMessage(event, false);
     }
 
     @GetMapping("/fullResult")

@@ -41,9 +41,14 @@ public class EmergencyProducer {
         this.kafkaTemplate = kafkaTemplate;
     }
 
-    public void sendMessage(Event event) throws JsonProcessingException {
+    public void sendMessage(Event event, boolean idGenerated) throws JsonProcessingException {
         String eventType = event.getEventType().name();
+
         StandardPayload payload = new StandardPayload(event.getPayload());
+
+        if (idGenerated) {
+            payload.setPayloadId(event.getPayloadId());
+        }
 
         LOGGER.info(String.format("Sending event of type %s to emergencies topic => %s ", eventType, payload));
 
