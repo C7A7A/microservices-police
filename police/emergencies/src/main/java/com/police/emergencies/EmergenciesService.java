@@ -7,6 +7,7 @@ import com.police.basedomains.policemen.EquippedPoliceman;
 import com.police.basedomains.vehicles.GetVehicleListResponse;
 import com.police.emergencies.data.Emergency;
 import com.police.emergencies.data.FullDataEmergency;
+import com.police.emergencies.data.PolicemenVehicles;
 import com.police.emergencies.data.Type;
 import com.police.emergencies.kafka.EmergencyProducer;
 import org.slf4j.Logger;
@@ -30,6 +31,10 @@ public class EmergenciesService {
         Type type = emergency.getType();
 
         return decideEmergencyResult(type);
+    }
+
+    public PolicemenVehicles getFullEmergencyResult(String payloadId) {
+        return fullDataEmergency.getData().get(payloadId);
     }
 
     private String decideEmergencyResult(Type type) {
@@ -56,7 +61,7 @@ public class EmergenciesService {
         return "standard";
     }
 
-    public void savePolicemen(List<EquippedPoliceman> equippedPolicemen, String payloadId) throws JsonProcessingException {
+    public synchronized void savePolicemen(List<EquippedPoliceman> equippedPolicemen, String payloadId) throws JsonProcessingException {
         // vehicles already in hashMap
         if (fullDataEmergency.checkIfExist(payloadId)) {
             LOGGER.info(String.format("2/2 add policeman, vehicles ready, payloadId: %s, size: %s", payloadId, fullDataEmergency.getData().size()));
@@ -68,7 +73,7 @@ public class EmergenciesService {
         }
     }
 
-    public void saveVehicles(GetVehicleListResponse vehicleList, String payloadId) throws JsonProcessingException {
+    public synchronized void saveVehicles(GetVehicleListResponse vehicleList, String payloadId) throws JsonProcessingException {
         // policemen already in hashMap
         if (fullDataEmergency.checkIfExist(payloadId)) {
             LOGGER.info(String.format("2/2 add vehicles, policemen ready, payloadId: %s, size: %s", payloadId, fullDataEmergency.getData().size()));
@@ -80,7 +85,7 @@ public class EmergenciesService {
         }
     }
 
-    public void deleteData(String payloadId) throws JsonProcessingException {
+    public synchronized void deleteData(String payloadId) throws JsonProcessingException {
         if (fullDataEmergency.checkIfExist(payloadId)) {
             LOGGER.info(String.format("deleting data, payloadId: %s", payloadId));
             fullDataEmergency.getData().remove(payloadId);
@@ -93,7 +98,7 @@ public class EmergenciesService {
         sendPolicemenFailedMessage(payloadId);
     }
 
-    public void checkPolicemen(String payloadId) throws JsonProcessingException {
+    public  void checkPolicemen(String payloadId) throws JsonProcessingException {
         sendVehiclesFailedMessage(payloadId);
     }
 

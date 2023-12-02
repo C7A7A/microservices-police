@@ -1,0 +1,58 @@
+<!DOCTYPE HTML>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Emergency result</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+</head>
+<body>
+    <p> <a href="/"> Go back </a></p>
+
+    <h2> Full result </h2>
+    <h3> Prepared Policemen </h3>
+    <h4> Chosen policemen </h4>
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Surname</th>
+            <th>Age</th>
+            <th>Rank</th>
+            <th>Equipped with</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="equippedPoliceman: ${equippedPolicemen}">
+            <td th:text="${equippedPoliceman.policeman.name}"></td>
+            <td th:text="${equippedPoliceman.policeman.surname}"></td>
+            <td th:text="${equippedPoliceman.policeman.age}"></td>
+            <td th:text="${equippedPoliceman.policeman.rank}"></td>
+            <td>
+                <span th:each="weapon: ${equippedPoliceman.weapons}">
+                    <span th:text="${weapon.name} "></span>
+                </span>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <h3> Chosen vehicles </h3>
+    <table>
+        <thead>
+        <tr>
+            <th>Name</th>
+            <th>Type</th>
+            <th>Capacity</th>
+        </tr>
+        </thead>
+
+        <tbody>
+        <tr th:each="vehicle : ${vehicleList.getVehicles()}">
+            <td th:text="${vehicle.name}"></td>
+            <td th:text="${vehicle.type}"></td>
+            <td th:text="${vehicle.capacity}"></td>
+        </tr>
+        </tbody>
+    </table>
+</body>
+</html>
