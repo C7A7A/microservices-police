@@ -1,6 +1,6 @@
 package com.police.policemen.data;
 
-import com.police.basedomains.EquippedPoliceman;
+import com.police.basedomains.policemen.EquippedPoliceman;
 
 import java.util.List;
 

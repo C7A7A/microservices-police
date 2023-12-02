@@ -1,9 +1,12 @@
 package com.police.vehicles;
 
+import com.police.vehicles.data.EmergencyVehicles;
 import jakarta.annotation.PostConstruct;
 
 import java.util.*;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 
@@ -12,6 +15,8 @@ import com.police.vehicles.data.Type;
 
 @Component
 public class VehicleRepository {
+    private final static Logger LOGGER = LoggerFactory.getLogger(VehicleRepository.class);
+    private static List<EmergencyVehicles> emergencyVehiclesList = new ArrayList<>();
     private static final Map<String, Vehicle> vehicles = new HashMap<>();
     private static final List<Vehicle> vehiclesStandard1 = new ArrayList<>();
     private static final List<Vehicle> vehiclesBeating = new ArrayList<>();
@@ -61,12 +66,23 @@ public class VehicleRepository {
             case "beating" -> vehiclesBeating;
             case "chase" -> vehiclesChase;
             case "prisoner" -> vehiclesPrisoner;
-            case "high risk" -> vehiclesHighRisk;
+            // vehiclesHighRisk
+            case "high risk" -> Collections.emptyList();
             default -> {
                 Assert.notNull(name, "There is no vehicles list of this type");
                 yield Collections.emptyList();
             }
         };
+    }
 
+    public void saveEmergency(EmergencyVehicles emergencyVehicles) {
+        emergencyVehiclesList.add(emergencyVehicles);
+        LOGGER.info(String.format("ADD, size: %s", emergencyVehiclesList.size()));
+    }
+
+    public void removeEmergency(String payloadId) {
+        LOGGER.info(String.format("BEFORE REMOVE, size: %s", emergencyVehiclesList.size()));
+        emergencyVehiclesList.removeIf(emergency -> emergency.getPayloadId().equals(payloadId));
+        LOGGER.info(String.format("REMOVE, size: %s", emergencyVehiclesList.size()));
     }
 }

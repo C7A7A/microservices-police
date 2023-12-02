@@ -16,18 +16,18 @@ import com.police.vehicles.data.GetVehicleListResponse;
 public class VehicleEndpoint {
     public static final String NAMESPACE_URI = "http://www.police.org";
 
-    private final VehicleRepository vehicleRepository;
+    private final VehiclesService vehiclesService;
 
     @Autowired
-    public VehicleEndpoint(VehicleRepository VehicleRepository) {
-        this.vehicleRepository = VehicleRepository;
+    public VehicleEndpoint(VehiclesService vehiclesService) {
+        this.vehiclesService = vehiclesService;
     }
 
     @PayloadRoot(namespace = NAMESPACE_URI, localPart = "getVehicleRequest")
     @ResponsePayload
     public GetVehicleResponse getVehicle(@RequestPayload GetVehicleRequest request) {
         GetVehicleResponse response = new GetVehicleResponse();
-        response.setVehicle(vehicleRepository.findVehicle(request.getName()));
+        response.setVehicle(vehiclesService.getVehicle(request.getName()));
 
         return response;
     }
@@ -36,7 +36,7 @@ public class VehicleEndpoint {
     @ResponsePayload
     public GetVehicleListResponse getVehicleList(@RequestPayload GetVehicleListRequest request) {
         GetVehicleListResponse response = new GetVehicleListResponse();
-        response.setVehicles(vehicleRepository.findVehicles(request.getName()));
+        response.setVehicles(vehiclesService.getVehicles(request.getName()));
 
         return response;
     }

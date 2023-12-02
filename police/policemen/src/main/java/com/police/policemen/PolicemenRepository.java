@@ -1,10 +1,12 @@
 package com.police.policemen;
 
-import com.police.basedomains.DangerLevel;
-import com.police.basedomains.Policeman;
-import com.police.basedomains.Rank;
-import com.police.basedomains.Weapon;
+import com.police.basedomains.policemen.DangerLevel;
+import com.police.basedomains.policemen.Policeman;
+import com.police.basedomains.policemen.Rank;
+import com.police.basedomains.policemen.Weapon;
 import com.police.policemen.data.*;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -12,6 +14,7 @@ import java.util.List;
 
 @Component
 public class PolicemenRepository {
+    private final static Logger LOGGER = LoggerFactory.getLogger(PolicemenRepository.class);
     private static List<EmergencyEquippedPoliceman> emergencyEquippedPolicemanList = new ArrayList<>();
 
     public List<Policeman> generatePolicemen() {
@@ -48,5 +51,13 @@ public class PolicemenRepository {
 
     public void saveEmergency(EmergencyEquippedPoliceman emergencyEquippedPoliceman) {
         emergencyEquippedPolicemanList.add(emergencyEquippedPoliceman);
+        LOGGER.info(String.format("ADD, size: %s", emergencyEquippedPolicemanList.size()));
+    }
+
+    public void removeEmergency(String payloadId) {
+        LOGGER.info(String.format("BEFORE REMOVE, size: %s", emergencyEquippedPolicemanList.size()));
+        emergencyEquippedPolicemanList
+                .removeIf(emergency -> emergency.getPayloadId().equals(payloadId));
+        LOGGER.info(String.format("REMOVE, size: %s", emergencyEquippedPolicemanList.size()));
     }
 }

@@ -3,6 +3,7 @@ package com.police.policemen;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.police.basedomains.*;
+import com.police.basedomains.policemen.*;
 import com.police.policemen.data.*;
 import com.police.policemen.kafka.EmergencyProducer;
 import org.slf4j.Logger;
@@ -40,13 +41,14 @@ public class PolicemenService {
 
         return switch (threat) {
             case "standard" -> equipPolicemen(policemen, weapons, DangerLevel.LOW, Rank.SENIOR_SERGEANT, 0.8);
-            case "beating" -> equipPolicemen(policemen, weapons, DangerLevel.LOW, Rank.STAFF_SERGEANT, 0.7);
+            // equipPolicemen(policemen, weapons, DangerLevel.LOW, Rank.STAFF_SERGEANT, 0.7);
+            case "beating" -> Collections.emptyList(); // Simulate that this doesn't work
             case "chase" -> equipPolicemen(policemen, weapons, DangerLevel.HIGH, Rank.SENIOR_ASPIRANT, 0.5);
             case "prisoner" -> equipPolicemen(policemen, weapons, DangerLevel.MEDIUM, Rank.ASPIRANT, 0.6);
             case "high risk" -> equipPolicemen(policemen, weapons, DangerLevel.HIGH, Rank.STAFF_ASPIRANT, 0.65);
             default -> {
                 Assert.notNull(threat, "Something went wrong. There is no threat of this type!");
-                yield List.of(new EquippedPoliceman());
+                yield Collections.emptyList();
             }
         };
     }
@@ -79,9 +81,25 @@ public class PolicemenService {
         policemenRepository.saveEmergency(emergencyEquippedPoliceman);
     }
 
+    public void removeEmergency(String payloadId) throws JsonProcessingException {
+        policemenRepository.removeEmergency(payloadId);
+        sendPolicemenBackwardRecoveryMessage(payloadId);
+    }
+
     public void sendReadyMessage(List<EquippedPoliceman> equippedPolicemen, String payloadId) throws JsonProcessingException {
         ObjectMapper objectMapper = new ObjectMapper();
         String jsonPayload = objectMapper.writeValueAsString(equippedPolicemen);
-        emergencyProducer.sendMessage(new Event(EventType.POLICEMEN_READY, jsonPayload, payloadId));
+        Event newEvent = new Event(EventType.POLICEMEN_READY, jsonPayload, payloadId);
+        emergencyProducer.sendMessage(newEvent);
+    }
+
+    public void sendErrorMessage(String payloadId) throws JsonProcessingException {
+        Event newEvent = new Event(EventType.POLICEMEN_ERROR, "Error", payloadId);
+        emergencyProducer.sendMessage(newEvent);
+    }
+
+    private void sendPolicemenBackwardRecoveryMessage(String payloadId) throws JsonProcessingException {
+        Event newEvent = new Event(EventType.POLICEMEN_BACKWARD_RECOVERY, "Policemen Backward recovery", payloadId);
+        emergencyProducer.sendMessage(newEvent);
     }
 }

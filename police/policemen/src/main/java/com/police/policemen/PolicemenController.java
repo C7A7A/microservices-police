@@ -1,8 +1,8 @@
 package com.police.policemen;
 
-import com.police.basedomains.EquippedPoliceman;
-import com.police.basedomains.Policeman;
-import com.police.basedomains.Weapon;
+import com.police.basedomains.policemen.EquippedPoliceman;
+import com.police.basedomains.policemen.Policeman;
+import com.police.basedomains.policemen.Weapon;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 

@@ -1,4 +1,4 @@
-package com.police.basedomains;
+package com.police.basedomains.policemen;
 
 public class Policeman {
     private String name;

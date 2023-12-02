@@ -1,4 +1,4 @@
-package com.police.basedomains;
+package com.police.vehicles.baseDomains;
 
 public enum EventType {
     EMERGENCY_ACCEPTED,
