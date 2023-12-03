@@ -25,17 +25,11 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifact bootJar
-        }
-    }
+springBoot {
+    buildInfo()
+}
 
-    repositories {
-        maven {
-            name = 'sampleRepo'
-            url = layout.buildDirectory.dir("repo")
-        }
-    }
+bootBuildImage {
+    imageName = project.name
+    builder = 'paketobuildpacks/builder-jammy-base:latest'
 }
