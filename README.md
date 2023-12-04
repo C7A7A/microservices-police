@@ -28,7 +28,7 @@ A microservices architecture-based project that leverages Kafka for event-driven
     <li> policemen - REST service </li>
     <li> vehicles - SOAP service </li>
     <li> base-domains - project for shared classes </li>
-    <li> vehicles-ui - Client for vehicles (used only for test purposes) </li>
+    <li> vehicles-ui - client for vehicles (used only for test purposes) </li>
 </ul>
 
 Microservices are ready to dockerize thanks to Dockerfiles and docker-compose.yml. 
