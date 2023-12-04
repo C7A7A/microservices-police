@@ -22,7 +22,9 @@
 
 <!-- ABOUT THE PROJECT -->
 ## About the project
-A microservices architecture-based project that leverages Kafka for event-driven communication. Project consists of:
+A microservices architecture-based project that leverages Kafka for event-driven communication. The emergencies project processes a police report received by the user. Based on the filled-in form, it decides which type of report it is dealing with and sends the relevant data to the kafka topic. The vehicles and policemen microservices receive the data from kafka, prepare the vehicles and policemen and send the appropriate data to the kafka topic. Emergencies receives the data, merges it together, sends a success message to the kafka topic and finishes working. Saga pattern is implemented to guarantee the final consistency of processing if something goes wrong in vehicles or policemen service. <br>
+
+Project consists of:
 <ul>
     <li> emergencies - REST gateway </li>
     <li> policemen - REST service </li>
