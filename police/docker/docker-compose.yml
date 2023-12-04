@@ -1,31 +1,39 @@
-version: '2'
+version: "3"
+
+networks:
+  kafka-network:
+    driver: bridge
 
 services:
 
   zookeeper:
-    image: confluentinc/cp-zookeeper:latest
-    environment:
-      ZOOKEEPER_CLIENT_PORT: 2181
-      ZOOKEEPER_TICK_TIME: 2000
+    image: 'bitnami/zookeeper:latest'
     ports:
-      - 22181:2181
+      - '2181:2181'
+    environment:
+      - ALLOW_ANONYMOUS_LOGIN=yes
+    networks:
+      - kafka-network
   
   kafka:
-    image: confluentinc/cp-kafka:latest
-    container_name: kafka
+    image: 'bitnami/kafka:latest'
     ports:
       - 9092:9092
+      - 29092:29092
+    hostname: kafka
+    environment:
+      - KAFKA_BROKER_ID=1
+      - KAFKA_LISTENERS=PLAINTEXT://:9092,PLAINTEXT_HOST://:29092
+      - KAFKA_ADVERTISED_LISTENERS=PLAINTEXT://localhost:9092,PLAINTEXT_HOST://kafka:29092
+      - KAFKA_LISTENER_SECURITY_PROTOCOL_MAP=PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
+      - ALLOW_PLAINTEXT_LISTENER=yes
+      - KAFKA_ZOOKEEPER_CONNECT=zookeeper:2181
+      - KAFKA_INTER_BROKER_LISTENER_NAME= PLAINTEXT_HOST
     depends_on:
       - zookeeper
-    environment:
-      KAFKA_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
-      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: PLAINTEXT:PLAINTEXT,PLAINTEXT_HOST:PLAINTEXT
-      KAFKA_INTER_BROKER_LISTENER_NAME: PLAINTEXT
-      KAFKA_ADVERTISED_LISTENERS: PLAINTEXT://kafka:29092,PLAINTEXT_HOST://localhost:9092
-      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
-    volumes:
-      - /var/run/docker.sock:/var/run/docker.sock
-  
+    networks:
+      - kafka-network
+
   emergencies:
     image: emergencies:latest
     ports:
@@ -34,22 +42,34 @@ services:
       - kafka
     environment:
       POLICE_KAFKA_SERVER: kafka:29092
+    networks:
+      - kafka-network
   
   policemen:
     image: policemen:latest
+    ports:
+      - 8082:8082
     depends_on:
       - kafka
     environment:
       POLICE_KAFKA_SERVER: kafka:29092
+    networks:
+      - kafka-network
   
   vehicles:
-    image: vehicles:0.0.1-SNAPSHOT
+    image: vehicles:latest
+    ports:
+      - 8080:8080
     depends_on:
       - kafka
     environment:
       POLICE_KAFKA_SERVER: kafka:29092
+    networks:
+      - kafka-network
   
   base-domains:
     image: base-domains:latest
     depends_on:
       - kafka
+    networks:
+      - kafka-network

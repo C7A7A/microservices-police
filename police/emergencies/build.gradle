@@ -29,11 +29,11 @@ tasks.named('test') {
     useJUnitPlatform()
 }
 
-springBoot {
-    buildInfo()
-}
+//springBoot {
+//    buildInfo()
+//}
 
-bootBuildImage {
-    imageName = project.name
-    builder = 'paketobuildpacks/builder-jammy-base:latest'
-}
+//bootBuildImage {
+//    imageName = project.name
+//    builder = 'paketobuildpacks/builder-jammy-base:latest'
+//}

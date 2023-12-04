@@ -17,20 +17,10 @@ import org.springframework.stereotype.Service;
 public class EmergencyProducer {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EmergencyProducer.class);
-    private NewTopic topic;
     private KafkaTemplate<String, String> kafkaTemplate;
 
-    public EmergencyProducer(NewTopic topic, KafkaTemplate<String, String> kafkaTemplate) {
-        this.topic = topic;
+    public EmergencyProducer(KafkaTemplate<String, String> kafkaTemplate) {
         this.kafkaTemplate = kafkaTemplate;
-    }
-
-    public NewTopic getTopic() {
-        return topic;
-    }
-
-    public void setTopic(NewTopic topic) {
-        this.topic = topic;
     }
 
     public KafkaTemplate<String, String> getKafkaTemplate() {
@@ -57,7 +47,7 @@ public class EmergencyProducer {
 
         Message<String> message = MessageBuilder
                 .withPayload(jsonPayload)
-                .setHeader(KafkaHeaders.TOPIC, topic.name())
+                .setHeader(KafkaHeaders.TOPIC, kafkaTemplate.getDefaultTopic())
                 .setHeader("EVENT_TYPE", eventType)
                 .build();
 
