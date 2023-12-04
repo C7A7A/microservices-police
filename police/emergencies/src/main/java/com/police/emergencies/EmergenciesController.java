@@ -89,4 +89,9 @@ public class EmergenciesController {
         return modelAndView;
     }
 
+    @GetMapping("/fullResultJSON")
+    public PolicemenVehicles showFullResultJSON(@RequestParam("payloadId") String payloadId) {
+        return emergenciesService.getFullEmergencyResult(payloadId);
+    }
+
 }
