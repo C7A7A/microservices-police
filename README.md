@@ -42,9 +42,6 @@ Microservices are ready to dockerize thanks to Dockerfiles and docker-compose.ym
 - RED - something goes wrong in vehicles or policemen service (VEHICLES_ERROR/POLICEMEN_ERROR -> POLICEMEN_FAILED/VEHICLES_FAILED)
 - PURPLE - Something went wrong and microservice needs to backward recovery (POLICEMEN_FAILED/VEHICLES_FAILED -> VEHICLES_BACKWARD_RECOVERY/POLICEMEN_BACKWARD_RECOVERY -> EMERGENCY_FAILED)
 ```
-
-Microservices communicate with each other with events. These are sent to kafka topics and consumed by other services. Saga pattern is implemented to guarantee the final consistency of processing.
-
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Built With
